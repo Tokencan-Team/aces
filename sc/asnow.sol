@@ -488,7 +488,7 @@ contract InvestorRelationship is Config, SeroInterface {
     }
 
     function _balanceOfSero() internal view returns (uint256){
-        return sero_balanceOf("SERO").sub(cash);
+        return sero_balanceOf("AIPP").sub(cash);
     }
 
     function _payProfit(uint id, uint256 amount) internal returns (uint256) {
@@ -559,8 +559,8 @@ interface CodeService {
 
 contract Asnow is InvestorRelationship, Ownable {
 
-    string private constant SERO_CURRENCY = "SERO";
-    string private constant TOKEN_CURRENCY = "ASNOW";
+    string private constant SERO_CURRENCY = "AIPP";
+    string private constant TOKEN_CURRENCY = "ACES";
     uint256 private constant FIVEHUNDREDTHOUSAND = 5e23;
     uint256 private constant MILLION = 1e24;
     uint256 private constant TENMILLION = 1e25;
@@ -585,7 +585,7 @@ contract Asnow is InvestorRelationship, Ownable {
     }
 
     function name() public pure returns (string memory) {
-        return "ASNOW";
+        return "ACES";
     }
 
     function symbol() public pure returns (string memory) {

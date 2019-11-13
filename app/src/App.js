@@ -111,8 +111,8 @@ const BuyAsnowForm = Form.create({name: 'form_in_modal1'})(
                                             placeholder={Lang[that.props.lang].account.modal.buyAsnow.amountPlace}
                                             autoComplete="off"/>)}
                         </Form.Item>
-                        <p>Rate: {<span style={{color: '#1DA57A'}}>1 ASNOW = {rate} SERO</span>} , Exchange: {<strong
-                            style={{color: 'rgb(216, 0, 38)'}}>{new BigNumber(this.state.asnow).toFixed(6)}</strong>} ASNOW</p>
+                        <p>Rate: {<span style={{color: '#1DA57A'}}>1 ACES = {rate} SERO</span>} , Exchange: {<strong
+                            style={{color: 'rgb(216, 0, 38)'}}>{new BigNumber(this.state.asnow).toFixed(6)}</strong>} ACES</p>
                     </Form>
                 </Modal>
             );
@@ -222,7 +222,7 @@ const InvestForm = Form.create({name: 'form_in_modal2'})(
                                             style={{width: '30%'}} onChange={(v) => {
                                 that.setState({ticketSero: v});
                                 that.staticTotal();
-                            }} allowClear placeholder="0.000000" autoComplete="off"/>)} SERO (1 ASNOW
+                            }} allowClear placeholder="0.000000" autoComplete="off"/>)} SERO (1 ACES
                             = {rate} SERO)<br/>
                             {Lang[that.props.lang].account.modal.invest.availableAsnow}: {<span
                             style={{color: '#1DA57A'}}>{asnow ? asnow : "0"}</span>}
@@ -235,7 +235,7 @@ const InvestForm = Form.create({name: 'form_in_modal2'})(
 
                         <p>{Lang[that.props.lang].account.modal.invest.total} : <strong
                             style={{color: 'rgb(216, 0, 38)'}}>{this.state.total}</strong> SERO, <strong
-                            style={{color: 'rgb(216, 0, 38)'}}>{this.state.ticketAsnow}</strong> ASNOW</p>
+                            style={{color: 'rgb(216, 0, 38)'}}>{this.state.ticketAsnow}</strong> ACES</p>
                     </Form>
                 </Modal>
             );
@@ -417,7 +417,7 @@ class ContentPage extends Component {
         let that = this;
         ajax.postSeroRpc("sero_getBalance", [contractAddress, "latest"], function (res) {
             let sero = new BigNumber(res.result.tkn.SERO ? res.result.tkn.SERO : "0", 16).dividedBy(decimal).toFixed(6);
-            let asnow = new BigNumber(res.result.tkn.ASNOW ? res.result.tkn.ASNOW : "0", 16).dividedBy(decimal).toFixed(6);
+            let asnow = new BigNumber(res.result.tkn.ACES ? res.result.tkn.ACES : "0", 16).dividedBy(decimal).toFixed(6);
             that.setState({
                 ct_balance_sero: sero,
                 ct_balance_asnow: asnow,
@@ -448,7 +448,7 @@ class ContentPage extends Component {
             strMap.set(currency, balanceObj[currency]);
             if (currency === 'SERO') {
                 balanceSero = new BigNumber(balanceObj[currency]).dividedBy(decimal).toFixed(6);
-            } else if (currency === 'ASNOW') {
+            } else if (currency === 'ACES') {
                 balanceAsnow = new BigNumber(balanceObj[currency]).dividedBy(decimal).toFixed(6);
             }
         }
@@ -605,7 +605,7 @@ class ContentPage extends Component {
             }
             let amount = form.getFieldValue("Amount");
             try {
-                this.executeMethod("buyAsnow", [], new BigNumber(amount).multipliedBy(decimal).toString(16), "SERO", '', function (res) {
+                this.executeMethod("buyAsnow", [], new BigNumber(amount).multipliedBy(decimal).toString(16), "AIPP", '', function (res) {
                     if (res) {
                         form.resetFields();
                         that.setState({showBuyAsnow: false});
@@ -678,7 +678,7 @@ class ContentPage extends Component {
                 message.warn(Lang[that.state.lang].toast.minInvest);
             } else {
                 try {
-                    this.executeMethod("invest", [referId], new BigNumber(amountSero).multipliedBy(decimal).toString(16), "SERO", password, function (res) {
+                    this.executeMethod("invest", [referId], new BigNumber(amountSero).multipliedBy(decimal).toString(16), "AIPP", password, function (res) {
                         if (res) {
                             form.resetFields();
                             that.setState({showInvest: false});
@@ -724,7 +724,7 @@ class ContentPage extends Component {
     shareProfit() {
         let that = this;
         try {
-            this.executeMethod("triggerStaticProfit", [], "0", "SERO", '', function (res) {
+            this.executeMethod("triggerStaticProfit", [], "0", "AIPP", '', function (res) {
                 if (res) {
                     openNotificationWithIcon('success', 'Successful', `${Lang[that.state.lang].toast.tx}${res}`)
                 } else {
@@ -748,7 +748,7 @@ class ContentPage extends Component {
     withdraw() {
         let that = this;
         try {
-            this.executeMethod("withdrawBalance", [], "0", "SERO", '', function (res) {
+            this.executeMethod("withdrawBalance", [], "0", "AIPP", '', function (res) {
                 if (res) {
                     openNotificationWithIcon('success', 'Successful', `${Lang[that.state.lang].toast.tx}${res}`)
                 } else {
@@ -794,7 +794,7 @@ class ContentPage extends Component {
                 message.warn(Lang[that.state.lang].toast.lessAsnow);
             } else {
                 try {
-                    this.executeMethod("paymentAsnow", [], new BigNumber(amount).multipliedBy(decimal).toString(16), "ASNOW", '', function (res) {
+                    this.executeMethod("paymentAsnow", [], new BigNumber(amount).multipliedBy(decimal).toString(16), "ACES", '', function (res) {
                         if (res) {
                             form.resetFields();
                             that.setState({showBuyTicket: false});
@@ -880,7 +880,7 @@ class ContentPage extends Component {
                         <Breadcrumb.Item>
                             <a href="http://129.211.98.114:3006/web/v0_1_7/dapps.html">DApps</a>
                         </Breadcrumb.Item>
-                        <Breadcrumb.Item>ASNOW</Breadcrumb.Item>
+                        <Breadcrumb.Item>ACES</Breadcrumb.Item>
                     </Breadcrumb>
                     <p/>
                     <div style={{background: '#fff', padding: 24, minHeight: document.body.clientHeight}}>
@@ -1171,14 +1171,14 @@ class App extends Component {
                 <Layout className="layout">
                     <Header className="header">
                         <div className="logo"><img src={logo}/></div>
-                        <h1>ASNOW</h1>
+                        <h1>ACES</h1>
                         <div className="change-locale">
                             <Radio.Group value={locale} onChange={this.changeLocale}>
                                 <Radio.Button key="en" value={enUS}>
                                     English
                                 </Radio.Button>
                                 <Radio.Button key="cn" value={zhCN}>
-                                    中文
+                                    한글
                                 </Radio.Button>
                             </Radio.Group>
                         </div>
